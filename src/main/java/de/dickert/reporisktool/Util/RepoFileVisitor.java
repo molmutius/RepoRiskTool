@@ -1,21 +1,27 @@
-package de.dickert.reporisktool.Repo;
+package de.dickert.reporisktool.Util;
 
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Collections;
 import java.util.List;
 
 import static java.nio.file.FileVisitResult.*;
 
 public class RepoFileVisitor extends SimpleFileVisitor<Path>
 {
-    private List<String> excludeDirs;
+    private List<String> excludeDirs = Collections.emptyList();
 
     public RepoFileVisitor(List<String> excludeDirs)
     {
         this.excludeDirs = excludeDirs;
+    }
+
+    public RepoFileVisitor()
+    {
+        // empty constructor
     }
 
     /**

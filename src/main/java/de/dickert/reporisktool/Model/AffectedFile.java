@@ -16,4 +16,24 @@ public class AffectedFile
     private Path path;
     /** A list of issues represented by their ticket numbers */
     private List<String> issues;
+
+    public Path getPath()
+    {
+        return path;
+    }
+
+    public void setPath(Path path)
+    {
+        this.path = path;
+    }
+
+    public List<String> getIssues()
+    {
+        return issues;
+    }
+
+    public void setIssues(List<String> issues)
+    {
+        this.issues = issues;
+    }
 }

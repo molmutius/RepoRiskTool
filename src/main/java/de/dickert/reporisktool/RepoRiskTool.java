@@ -1,10 +1,12 @@
 package de.dickert.reporisktool;
 
 import de.dickert.reporisktool.Controller.DisplayItemController;
+import de.dickert.reporisktool.Controller.FileTreeController;
 import de.dickert.reporisktool.Controller.JiraController;
 import de.dickert.reporisktool.Controller.RepoController;
 import de.dickert.reporisktool.Model.AffectedFile;
 import de.dickert.reporisktool.Model.DisplayItem;
+import de.dickert.reporisktool.Model.FileTree;
 import de.dickert.reporisktool.Model.Issue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +16,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
 
 @SpringBootApplication
@@ -27,6 +31,9 @@ public class RepoRiskTool implements CommandLineRunner
 
     @Autowired
     private DisplayItemController displayItemController;
+
+    @Autowired
+    private FileTreeController fileTreeController;
 
     @Value("${project.name}")
     private String projectName;
@@ -43,7 +50,10 @@ public class RepoRiskTool implements CommandLineRunner
     {
         List<Issue> issues = jiraController.getIssues(projectName);
         List<AffectedFile> affectedFiles = repoController.getAffectedFiles(projectDirectory, startDate, endDate, branch);
-        List<DisplayItem> displayItems = displayItemController.getItemsToDisplay(affectedFiles, maxDepth);
+        //List<DisplayItem> displayItems = displayItemController.getItemsToDisplay(affectedFiles, maxDepth);
+        Path rootPath = new File("C:\\Users\\Molmu\\Documents\\Battlefield 1").toPath();
+        FileTree fileTree = fileTreeController.buildFileTree(rootPath, affectedFiles);
+        fileTree.dumpTree();
     }
 
     public static void main(String[] args) throws Exception
