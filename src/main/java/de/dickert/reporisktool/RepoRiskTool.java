@@ -4,8 +4,7 @@ import de.dickert.reporisktool.Controller.DisplayItemController;
 import de.dickert.reporisktool.Controller.FileTreeController;
 import de.dickert.reporisktool.Controller.JiraController;
 import de.dickert.reporisktool.Controller.RepoController;
-import de.dickert.reporisktool.Model.AffectedFile;
-import de.dickert.reporisktool.Model.DisplayItem;
+import de.dickert.reporisktool.Model.RepoFile;
 import de.dickert.reporisktool.Model.FileTree;
 import de.dickert.reporisktool.Model.Issue;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.nio.file.Path;
 import java.util.List;
 
 @SpringBootApplication
@@ -38,7 +34,12 @@ public class RepoRiskTool implements CommandLineRunner
     @Value("${project.name}")
     private String projectName;
 
+    @Value("${project.directory}")
     private String projectDirectory;
+
+    @Value("#{'${project.excludeNames}'.split(',')}")
+    private List<String> excludeNames;
+
     private String startDate;
     private String endDate;
     private String branch;
@@ -49,11 +50,9 @@ public class RepoRiskTool implements CommandLineRunner
     public void run(String... args) throws Exception
     {
         List<Issue> issues = jiraController.getIssues(projectName);
-        List<AffectedFile> affectedFiles = repoController.getAffectedFiles(projectDirectory, startDate, endDate, branch);
-        //List<DisplayItem> displayItems = displayItemController.getItemsToDisplay(affectedFiles, maxDepth);
-        Path rootPath = new File("C:\\Users\\Molmu\\Documents\\Battlefield 1").toPath();
-        FileTree fileTree = fileTreeController.buildFileTree(rootPath, affectedFiles);
-        fileTree.dumpTree();
+        List<RepoFile> affectedFiles = repoController.getAffectedFiles(projectDirectory, startDate, endDate, branch);
+        //List<DisplayItem> displayItems = displayItemController.getItemsToDisplay(repoFiles, maxDepth);
+        FileTree fileTree = fileTreeController.buildFileTree(new File(projectDirectory).toPath(), affectedFiles, excludeNames);
     }
 
     public static void main(String[] args) throws Exception

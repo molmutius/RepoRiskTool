@@ -1,6 +1,6 @@
 package de.dickert.reporisktool.Controller;
 
-import de.dickert.reporisktool.Model.AffectedFile;
+import de.dickert.reporisktool.Model.RepoFile;
 import de.dickert.reporisktool.Model.DisplayItem;
 import de.dickert.reporisktool.Model.FileTree;
 
@@ -13,17 +13,17 @@ public interface DisplayItemController
      * on file system depth. The depth parameter is used to determine the level at
      * which the affected files get grouped together.
      *
-     * @param affectedFiles a List of {@link AffectedFile} as gathered from the git repository
+     * @param repoFiles a List of {@link RepoFile} as gathered from the git repository
      * @param depth the depth at which items are grouped together
      * @return
      */
     @Deprecated
-    List<DisplayItem> getItemsToDisplay(List<AffectedFile> affectedFiles, int depth);
+    List<DisplayItem> getItemsToDisplay(List<RepoFile> repoFiles, int depth);
 
     /**
      *
-     * @param affectedFiles
+     * @param repoFiles
      * @return
      */
-    FileTree getFileTree(List<AffectedFile> affectedFiles);
+    FileTree getFileTree(List<RepoFile> repoFiles);
 }

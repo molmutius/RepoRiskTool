@@ -7,8 +7,28 @@ package de.dickert.reporisktool.Model;
  */
 public class Issue
 {
+    public Issue(String ticketNumber)
+    {
+        this.ticketNumber = ticketNumber;
+    }
+
     private String ticketNumber;
     private String summary;
     private String priority;
     private String type;
+
+    public String getTicketNumber()
+    {
+        return ticketNumber;
+    }
+
+    public void setTicketNumber(String ticketNumber)
+    {
+        this.ticketNumber = ticketNumber;
+    }
+
+    public String toString()
+    {
+        return "Issue: " + ticketNumber;
+    }
 }
