@@ -1,10 +1,10 @@
 <html>
 <section layout:fragment="repoItemFragment">
-    <ul>
+    <ul class="tree">
         <li th:each="treeNode : ${fileTree}">
             <!-- actual item -->
             <span th:text="${treeNode.toString()}">File or Folder</span>
-            <!--<span th:text="${treeNode.getIssuesOfSubtree(treeNode)}">Issue List</span>-->
+            <span th:text="${T(de.dickert.reporisktool.Model.FileTree).getIssuesOfSubtree(treeNode)}">Issue List</span>
             <!-- recursion along the tree -->
             <section layout:include="@{./repoItemFragment} :: repoItemFragment"
                      th:with="fileTree=${T(de.dickert.reporisktool.Model.FileTree).children(treeNode)}">

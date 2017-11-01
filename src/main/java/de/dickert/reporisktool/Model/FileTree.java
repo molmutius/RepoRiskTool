@@ -28,7 +28,7 @@ import java.util.*;
  */
 public class FileTree
 {
-    private DefaultMutableTreeNode fileTree;
+    private static DefaultMutableTreeNode fileTree;
     private List<String> excludeNames;
     private List<RepoFile> repoFiles;
 
@@ -37,7 +37,7 @@ public class FileTree
         this.repoFiles = repoFiles;
         this.excludeNames = excludeNames;
         // buildTree() comes last because the assignments above need to happen before
-        this.fileTree = buildTree(new File(rootPath));
+        fileTree = buildTree(new File(rootPath));
     }
 
     /**
@@ -56,15 +56,15 @@ public class FileTree
      * @param path The path of the current directory or file
      * @return A flattened list of all issues in this subtree (including provided dir)
      */
-    public List<Issue> getIssuesOfSubtree(Path path)
+    public static List<Issue> getIssuesOfSubtree(Path path)
     {
         final Optional<DefaultMutableTreeNode> subTreeOptional = findNode(path);
         final DefaultMutableTreeNode subTree = subTreeOptional
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Couldn't find %s in tree.", path.toString())));
-        return getIssueOfSubtree(subTree);
+        return getIssuesOfSubtree(subTree);
     }
 
-    public List<Issue> getIssueOfSubtree(DefaultMutableTreeNode subTree)
+    public static List<Issue> getIssuesOfSubtree(DefaultMutableTreeNode subTree)
     {
         final List<Issue> issues = new ArrayList<>();
         traverseTree(new NodeVisitor()
@@ -81,7 +81,7 @@ public class FileTree
         return issues;
     }
 
-    private Optional<DefaultMutableTreeNode> findNode(Path path)
+    private static Optional<DefaultMutableTreeNode> findNode(Path path)
     {
         final Enumeration<DefaultMutableTreeNode> fileTreeEnum = fileTree.preorderEnumeration();
         while (fileTreeEnum.hasMoreElements())
@@ -180,7 +180,7 @@ public class FileTree
      * @param nodeVisitor This visitor will be notified on each node
      * @param tree the (sub-)tree to traverse
      */
-    public void traverseTree(NodeVisitor nodeVisitor, DefaultMutableTreeNode tree)
+    public static void traverseTree(NodeVisitor nodeVisitor, DefaultMutableTreeNode tree)
     {
         final Enumeration fileTreeEnum = tree.preorderEnumeration();
         while(fileTreeEnum.hasMoreElements())
