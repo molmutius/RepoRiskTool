@@ -1,27 +1,25 @@
 package de.dickert.reporisktool.Util;
 
+import de.dickert.reporisktool.Model.TreeNode;
+
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Collections;
 import java.util.List;
 
 import static java.nio.file.FileVisitResult.*;
 
 public class RepoFileVisitor extends SimpleFileVisitor<Path>
 {
-    private List<String> excludeDirs = Collections.emptyList();
+    private List<String> excludeDirs;
+    private TreeNode rootNode;
 
-    public RepoFileVisitor(List<String> excludeDirs)
+    public RepoFileVisitor(List<String> excludeDirs, TreeNode rootNode)
     {
         this.excludeDirs = excludeDirs;
-    }
-
-    public RepoFileVisitor()
-    {
-        // empty constructor
+        this.rootNode = rootNode;
     }
 
     /**
@@ -32,16 +30,16 @@ public class RepoFileVisitor extends SimpleFileVisitor<Path>
     {
         if (attributes.isRegularFile())
         {
-            System.out.format("File: %s", file);
+            System.out.format("File: %s%n", file);
         }
         return CONTINUE;
     }
 
     /**
-     * Notified on each directory
+     * Notified after each directory
      */
     @Override
-    public FileVisitResult postVisitDirectory(Path dir, IOException exc)
+    public FileVisitResult postVisitDirectory(Path dir, IOException e)
     {
         System.out.format("Directory: %s%n", dir);
         return CONTINUE;
@@ -51,9 +49,9 @@ public class RepoFileVisitor extends SimpleFileVisitor<Path>
      * Informs the user about errors when accessing files instead of throwing IOE directly.
      */
     @Override
-    public FileVisitResult visitFileFailed(Path file, IOException exc)
+    public FileVisitResult visitFileFailed(Path file, IOException e)
     {
-        System.err.println(exc);
+        System.err.println(e);
         return CONTINUE;
     }
 

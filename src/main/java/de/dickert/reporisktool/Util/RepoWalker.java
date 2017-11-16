@@ -1,5 +1,7 @@
 package de.dickert.reporisktool.Util;
 
+import de.dickert.reporisktool.Model.TreeNode;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

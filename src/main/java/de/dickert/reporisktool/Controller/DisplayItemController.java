@@ -1,8 +1,8 @@
 package de.dickert.reporisktool.Controller;
 
 import de.dickert.reporisktool.Model.RepoFile;
-import de.dickert.reporisktool.Model.DisplayItem;
 import de.dickert.reporisktool.Model.FileTree;
+import de.dickert.reporisktool.Model.RepoItem;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public interface DisplayItemController
      * @return
      */
     @Deprecated
-    List<DisplayItem> getItemsToDisplay(List<RepoFile> repoFiles, int depth);
+    List<RepoItem> getItemsToDisplay(List<RepoFile> repoFiles, int depth);
 
     /**
      *

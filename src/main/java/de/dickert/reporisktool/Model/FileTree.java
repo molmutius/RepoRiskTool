@@ -77,6 +77,9 @@ public class FileTree
 
             @Override
             public void onDirectory(RepoDir directory) { }
+
+            @Override
+            public void onNode(DefaultMutableTreeNode node) { }
         }, subTree);
         return issues;
     }
@@ -176,7 +179,7 @@ public class FileTree
     }
 
     /**
-     * Traverse the given tree in preorder. On files will be notified, directories ignored.
+     * Traverse the given tree in preorder.
      * @param nodeVisitor This visitor will be notified on each node
      * @param tree the (sub-)tree to traverse
      */
@@ -190,10 +193,12 @@ public class FileTree
             if (currentUserObject instanceof RepoFile)
             {
                 nodeVisitor.onFile((RepoFile) currentUserObject);
+                nodeVisitor.onNode(current);
             }
             else if (currentUserObject instanceof RepoDir)
             {
                 nodeVisitor.onDirectory((RepoDir) currentUserObject);
+                nodeVisitor.onNode(current);
             }
             else
             {
