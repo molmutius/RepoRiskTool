@@ -1,12 +1,17 @@
 package de.dickert.reporisktool.Controller;
 
-import de.dickert.reporisktool.Model.RepoFile;
 import de.dickert.reporisktool.Model.FileTree;
+import de.dickert.reporisktool.Model.RepoItem;
+import de.dickert.reporisktool.Model.TreeNode;
 
 import java.nio.file.Path;
 import java.util.List;
 
 public interface FileTreeController
 {
-    public FileTree buildFileTree(Path root, List<RepoFile> repoFiles, List<String> excludeNames);
+    FileTree buildFileTree(Path repoRootPath, List<RepoItem> repoFiles, List<String> excludeNames);
+
+    TreeNode buildTree();
+
+    String getJsonRepresentation(TreeNode tree);
 }

@@ -1,6 +1,6 @@
 package de.dickert.reporisktool.Controller;
 
-import de.dickert.reporisktool.Model.RepoFile;
+import de.dickert.reporisktool.Model.RepoItem;
 
 import java.util.List;
 
@@ -14,5 +14,5 @@ public interface RepoController
      * @param branch Branch to look at
      * @return Affected files by all git commits for the given input parameters
      */
-    public List<RepoFile> getAffectedFiles(String projectDirectory, String startDate, String endDate, String branch);
+    public List<RepoItem> getAffectedFiles(String projectDirectory, String startDate, String endDate, String branch);
 }

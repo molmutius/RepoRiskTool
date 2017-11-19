@@ -6,6 +6,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -58,11 +60,11 @@ public class FileTreeTest
     @Test
     public void TestGetIssueOfSubtree()
     {
-        final RepoFile affectedFile1 = new RepoFile(file1Dir2.toFile(),
+        final RepoItem affectedFile1 = new RepoItem(file1Dir2.toFile(),
                 Arrays.asList(new Issue("PAL-1234"), new Issue("PAL-555")));
-        final RepoFile affectedFile2 = new RepoFile(fileRoot.toFile(),
+        final RepoItem affectedFile2 = new RepoItem(fileRoot.toFile(),
                 Arrays.asList(new Issue("PAL-999"), new Issue("PAL-555")));
-        final List<RepoFile> repoFiles = Arrays.asList(affectedFile1, affectedFile2);
+        final List<RepoItem> repoFiles = Arrays.asList(affectedFile1, affectedFile2);
         final List<String> excludeDirs = Collections.emptyList();
 
         final FileTree fileTree = new FileTree(WORKING_DIR + TEST_ROOT_DIR, repoFiles, excludeDirs);
@@ -81,19 +83,20 @@ public class FileTreeTest
     @Test
     public void TestExcludeDir()
     {
-        final List<RepoFile> repoFiles = Collections.emptyList();
+        final List<RepoItem> repoFiles = Collections.emptyList();
         final String dirToExclude = DIR_1.replace("/", "");
         final List<String> excludeDirs = Collections.singletonList(dirToExclude);
         final FileTree fileTree = new FileTree(WORKING_DIR + TEST_ROOT_DIR, repoFiles, excludeDirs);
         fileTree.traverseTree(new NodeVisitor()
         {
             @Override
-            public void onFile(RepoFile file) { }
-
-            @Override
-            public void onDirectory(RepoDir directory)
+            public void onNode(DefaultMutableTreeNode node)
             {
-                Assert.assertNotEquals(directory, dirToExclude, "Expected directory to not be included.");
+                File file = ((RepoItem)node.getUserObject()).toFile();
+                if (file.isDirectory())
+                {
+                    Assert.assertNotEquals(file, dirToExclude, "Expected directory to not be included.");
+                }
             }
         });
     }

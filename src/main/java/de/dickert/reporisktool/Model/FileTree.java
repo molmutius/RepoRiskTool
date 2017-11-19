@@ -2,7 +2,6 @@ package de.dickert.reporisktool.Model;
 
 import de.dickert.reporisktool.Util.NodeVisitor;
 
-import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
 import java.io.File;
@@ -16,7 +15,7 @@ import java.util.*;
  * </p>
  * <p>
  * All nodes are guarenteede to have a custom payload extended from {@link RepoItem}.
- * This might either be {@link RepoFile} or {@link RepoDir}. The
+ * This might either be {@link RepoItem} or {@link RepoItem}. The
  * custom payload is accessed via {@link DefaultMutableTreeNode#getUserObject()};
  * </p>
  *
@@ -26,13 +25,14 @@ import java.util.*;
  * TODO: For displaying consider something simple like https://codepen.io/achudars/pen/cAsEJ or https://github.com/moschan/filetree.css <br>
  * </p>
  */
+@Deprecated
 public class FileTree
 {
     private static DefaultMutableTreeNode fileTree;
     private List<String> excludeNames;
-    private List<RepoFile> repoFiles;
+    private List<RepoItem> repoFiles;
 
-    public FileTree(String rootPath, List<RepoFile> repoFiles, List<String> excludeNames)
+    public FileTree(String rootPath, List<RepoItem> repoFiles, List<String> excludeNames)
     {
         this.repoFiles = repoFiles;
         this.excludeNames = excludeNames;
@@ -69,15 +69,6 @@ public class FileTree
         final List<Issue> issues = new ArrayList<>();
         traverseTree(new NodeVisitor()
         {
-            @Override
-            public void onFile(RepoFile file)
-            {
-                issues.addAll(file.getIssues());
-            }
-
-            @Override
-            public void onDirectory(RepoDir directory) { }
-
             @Override
             public void onNode(DefaultMutableTreeNode node) { }
         }, subTree);
@@ -135,7 +126,7 @@ public class FileTree
      */
     private void addDirectoryInformation(File node, DefaultMutableTreeNode tree)
     {
-        tree.setUserObject(new RepoDir(node.toPath()));
+        tree.setUserObject(new RepoItem(node.toPath()));
     }
 
     /**
@@ -146,18 +137,18 @@ public class FileTree
     private void addFileInformation(DefaultMutableTreeNode node, File file)
     {
         final Path nodePath = file.toPath();
-        for (RepoFile repoFile : repoFiles)
+        for (RepoItem repoFile : repoFiles)
         {
             // The node's file path equals the file path of an affected repo file
             if (repoFile.getPath().equals(nodePath))
             {
                 // Add node Payload: create new RepoFile, which also holds the file
-                node.setUserObject(new RepoFile(file, repoFile.getIssues()));
+                node.setUserObject(new RepoItem(file, repoFile.getIssues()));
                 return;
             }
         }
-        // No known affected file for this node, so we create one with an empty issues list and at this as node payload
-        node.setUserObject(new RepoFile(file, Collections.emptyList()));
+        // No known affected file for this node, so we create one with an empty issues list and add this as node payload
+        node.setUserObject(new RepoItem(file, Collections.emptyList()));
     }
 
     /**
@@ -190,14 +181,8 @@ public class FileTree
         {
             final DefaultMutableTreeNode current = (DefaultMutableTreeNode) fileTreeEnum.nextElement();
             final Object currentUserObject = current.getUserObject();
-            if (currentUserObject instanceof RepoFile)
+            if (currentUserObject instanceof RepoItem)
             {
-                nodeVisitor.onFile((RepoFile) currentUserObject);
-                nodeVisitor.onNode(current);
-            }
-            else if (currentUserObject instanceof RepoDir)
-            {
-                nodeVisitor.onDirectory((RepoDir) currentUserObject);
                 nodeVisitor.onNode(current);
             }
             else

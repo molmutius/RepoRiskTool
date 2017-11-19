@@ -1,6 +1,6 @@
 package de.dickert.reporisktool.Controller;
 
-import de.dickert.reporisktool.Model.RepoFile;
+import de.dickert.reporisktool.Model.RepoItem;
 import org.springframework.stereotype.Controller;
 
 import java.util.Collections;
@@ -10,7 +10,7 @@ import java.util.List;
 public class RepoControllerImpl implements RepoController
 {
     @Override
-    public List<RepoFile> getAffectedFiles(String directory, String startDate, String endDate, String projectDirectory)
+    public List<RepoItem> getAffectedFiles(String directory, String startDate, String endDate, String projectDirectory)
     {
         return Collections.emptyList();
     }

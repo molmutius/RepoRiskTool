@@ -1,11 +1,15 @@
 package de.dickert.reporisktool.Controller;
 
+import de.dickert.reporisktool.Configuration.Properties;
 import de.dickert.reporisktool.Model.FileTree;
 import de.dickert.reporisktool.Model.Issue;
-import de.dickert.reporisktool.Model.RepoFile;
+import de.dickert.reporisktool.Model.RepoItem;
+import de.dickert.reporisktool.Model.TreeNode;
+import de.dickert.reporisktool.Util.TreeBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,6 +18,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class can be used to mock away the interaction with JIRA and git, providing
+ * a hand tailored file tree with all necessary information.
+ */
 @Controller
 @Qualifier("DummyFileTreeControllerImpl")
 public class DummyFileTreeControllerImpl implements FileTreeController
@@ -34,6 +42,18 @@ public class DummyFileTreeControllerImpl implements FileTreeController
     private Path file1Dir1 = Paths.get(WORKING_DIR + TEST_ROOT_DIR + DIR_1 + FILE1_DIR1);
     private Path file2Dir1 = Paths.get(WORKING_DIR + TEST_ROOT_DIR + DIR_1 + FILE2_DIR1);
     private Path file1Dir2 = Paths.get(WORKING_DIR + TEST_ROOT_DIR + DIR_2 + FILE1_DIR2);
+
+    private final Path rootPath;
+    private final List<RepoItem> repoFiles;
+    private final List<String> excludes;
+
+    public DummyFileTreeControllerImpl(Properties config)
+    {
+        this.rootPath = config.getPath();
+        this.excludes = config.getExcludeNames();
+        // Todo: Repo files should be gatherd via autowired service
+        this.repoFiles = Collections.emptyList();
+    }
 
     private void createDirsAndFiles()
     {
@@ -72,18 +92,41 @@ public class DummyFileTreeControllerImpl implements FileTreeController
     }
 
     @Override
-    public FileTree buildFileTree(Path root, List<RepoFile> repoFiles, List<String> excludeNames)
+    public FileTree buildFileTree(Path root, List<RepoItem> repoFiles, List<String> excludeNames)
     {
         createDirsAndFiles();
-        final RepoFile affectedFile1 = new RepoFile(file1Dir2.toFile(),
+        final RepoItem affectedFile1 = new RepoItem(file1Dir2.toFile(),
                 Arrays.asList(new Issue("PAL-1234"), new Issue("PAL-555")));
-        final RepoFile affectedFile2 = new RepoFile(fileRoot.toFile(),
+        final RepoItem affectedFile2 = new RepoItem(fileRoot.toFile(),
                 Arrays.asList(new Issue("PAL-999"), new Issue("PAL-555")));
-        final List<RepoFile> affectedFiles = Arrays.asList(affectedFile1, affectedFile2);
+        final List<RepoItem> affectedFiles = Arrays.asList(affectedFile1, affectedFile2);
         final List<String> excludeDirs = Collections.emptyList();
         final FileTree fileTree = new FileTree(WORKING_DIR + TEST_ROOT_DIR, affectedFiles, excludeDirs);
         // We've already saved the file tree to memory, so it's save to delete the actual directory structure
         deleteDirsAndFiles();
         return fileTree;
+    }
+
+    @Override
+    public TreeNode buildTree()
+    {
+        createDirsAndFiles();
+        final RepoItem affectedFile1 = new RepoItem(file1Dir2.toFile(),
+                Arrays.asList(new Issue("PAL-1234"), new Issue("PAL-555")));
+        final RepoItem affectedFile2 = new RepoItem(fileRoot.toFile(),
+                Arrays.asList(new Issue("PAL-999"), new Issue("PAL-555")));
+        final List<RepoItem> affectedFiles = Arrays.asList(affectedFile1, affectedFile2);
+        final List<String> excludeDirs = Collections.emptyList();
+        final RepoItem rootRepoItem = new RepoItem(new File(WORKING_DIR + TEST_ROOT_DIR));
+        final TreeNode fileTree = TreeBuilder.buildTree(rootRepoItem, affectedFiles, excludeDirs);
+        // We've already saved the file tree to memory, so it's save to delete the actual directory structure
+        deleteDirsAndFiles();
+        return fileTree;
+    }
+
+    @Override
+    public String getJsonRepresentation(TreeNode tree)
+    {
+        return null;
     }
 }
