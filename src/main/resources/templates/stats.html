@@ -30,8 +30,6 @@
 
     <div class="starter-template">
         <h1>Tree</h1>
-        <!--<span th:text="${fileTree.toString()}"></span>-->
-
         <section layout:include="@{./repoItemFragment} :: repoItemFragment" th:with="fileTree=${rootFileTree}"></section>
     </div>
 

@@ -1,8 +1,8 @@
-package de.dickert.reporisktool.Controller;
+package de.dickert.reporisktool.Service;
 
 import de.dickert.reporisktool.Configuration.Properties;
 import de.dickert.reporisktool.Model.FileTree;
-import de.dickert.reporisktool.Model.Issue;
+import de.dickert.reporisktool.Model.RepoIssue;
 import de.dickert.reporisktool.Model.RepoItem;
 import de.dickert.reporisktool.Model.TreeNode;
 import de.dickert.reporisktool.Util.TreeBuilder;
@@ -23,8 +23,8 @@ import java.util.List;
  * a hand tailored file tree with all necessary information.
  */
 @Controller
-@Qualifier("DummyFileTreeControllerImpl")
-public class DummyFileTreeControllerImpl implements FileTreeController
+@Qualifier("DummyFileTreeServiceImpl")
+public class DummyFileTreeServiceImpl implements FileTreeService
 {
     private static final String DIR_1 = "/dir1";
     private static final String DIR_2 = "/dir2";
@@ -47,7 +47,7 @@ public class DummyFileTreeControllerImpl implements FileTreeController
     private final List<RepoItem> repoFiles;
     private final List<String> excludes;
 
-    public DummyFileTreeControllerImpl(Properties config)
+    public DummyFileTreeServiceImpl(Properties config)
     {
         this.rootPath = config.getPath();
         this.excludes = config.getExcludeNames();
@@ -96,9 +96,9 @@ public class DummyFileTreeControllerImpl implements FileTreeController
     {
         createDirsAndFiles();
         final RepoItem affectedFile1 = new RepoItem(file1Dir2.toFile(),
-                Arrays.asList(new Issue("PAL-1234"), new Issue("PAL-555")));
+                Arrays.asList(new RepoIssue("PAL-1234"), new RepoIssue("PAL-555")));
         final RepoItem affectedFile2 = new RepoItem(fileRoot.toFile(),
-                Arrays.asList(new Issue("PAL-999"), new Issue("PAL-555")));
+                Arrays.asList(new RepoIssue("PAL-999"), new RepoIssue("PAL-555")));
         final List<RepoItem> affectedFiles = Arrays.asList(affectedFile1, affectedFile2);
         final List<String> excludeDirs = Collections.emptyList();
         final FileTree fileTree = new FileTree(WORKING_DIR + TEST_ROOT_DIR, affectedFiles, excludeDirs);
@@ -112,9 +112,9 @@ public class DummyFileTreeControllerImpl implements FileTreeController
     {
         createDirsAndFiles();
         final RepoItem affectedFile1 = new RepoItem(file1Dir2.toFile(),
-                Arrays.asList(new Issue("PAL-1234"), new Issue("PAL-555")));
+                Arrays.asList(new RepoIssue("PAL-1234"), new RepoIssue("PAL-555")));
         final RepoItem affectedFile2 = new RepoItem(fileRoot.toFile(),
-                Arrays.asList(new Issue("PAL-999"), new Issue("PAL-555")));
+                Arrays.asList(new RepoIssue("PAL-999"), new RepoIssue("PAL-555")));
         final List<RepoItem> affectedFiles = Arrays.asList(affectedFile1, affectedFile2);
         final List<String> excludeDirs = Collections.emptyList();
         final RepoItem rootRepoItem = new RepoItem(new File(WORKING_DIR + TEST_ROOT_DIR));

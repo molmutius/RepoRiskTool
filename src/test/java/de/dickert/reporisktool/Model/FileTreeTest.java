@@ -61,16 +61,16 @@ public class FileTreeTest
     public void TestGetIssueOfSubtree()
     {
         final RepoItem affectedFile1 = new RepoItem(file1Dir2.toFile(),
-                Arrays.asList(new Issue("PAL-1234"), new Issue("PAL-555")));
+                Arrays.asList(new RepoIssue("PAL-1234", summary, priority, type, iconUrl, status), new RepoIssue("PAL-555", summary, priority, type, iconUrl, status)));
         final RepoItem affectedFile2 = new RepoItem(fileRoot.toFile(),
-                Arrays.asList(new Issue("PAL-999"), new Issue("PAL-555")));
+                Arrays.asList(new RepoIssue("PAL-999", summary, priority, type, iconUrl, status), new RepoIssue("PAL-555", summary, priority, type, iconUrl, status)));
         final List<RepoItem> repoFiles = Arrays.asList(affectedFile1, affectedFile2);
         final List<String> excludeDirs = Collections.emptyList();
 
         final FileTree fileTree = new FileTree(WORKING_DIR + TEST_ROOT_DIR, repoFiles, excludeDirs);
-        final List<Issue> issuesUnderRoot = fileTree.getIssuesOfSubtree(folderRoot);
-        final List<Issue> issuesDir2 = fileTree.getIssuesOfSubtree(folderDir2);
-        final List<Issue> issuesDir1 = fileTree.getIssuesOfSubtree(folderDir1);
+        final List<RepoIssue> issuesUnderRoot = fileTree.getIssuesOfSubtree(folderRoot);
+        final List<RepoIssue> issuesDir2 = fileTree.getIssuesOfSubtree(folderDir2);
+        final List<RepoIssue> issuesDir1 = fileTree.getIssuesOfSubtree(folderDir1);
 
         Assert.assertEquals(issuesUnderRoot.size(), 4);
         Assert.assertEquals(issuesDir2.size(), 2);

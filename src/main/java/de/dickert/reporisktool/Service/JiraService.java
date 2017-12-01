@@ -1,6 +1,10 @@
 package de.dickert.reporisktool.Service;
 
+import de.dickert.reporisktool.Model.RepoIssue;
+
+import java.util.List;
+
 public interface JiraService
 {
-    public String getIssuesJson();
+    public List<RepoIssue> getIssues();
 }

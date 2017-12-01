@@ -1,10 +1,10 @@
-package de.dickert.reporisktool.Controller;
+package de.dickert.reporisktool.Service;
 
 import de.dickert.reporisktool.Model.RepoItem;
 
 import java.util.List;
 
-public interface RepoController
+public interface RepoService
 {
     /**
      * Parses the git log output and finds all affected files for the given input.

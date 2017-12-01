@@ -12,14 +12,13 @@
 </head>
 <body>
 
-
 <nav layout:include="@{./navFragment} :: navFragment"></nav>
 
 <div class="container">
 
     <div class="starter-template">
-        <h1>Tree</h1>
-        <div id="tree"></div>
+        <h1>Table</h1>
+        <div id="table"></div>
     </div>
 
 </div>
@@ -27,27 +26,6 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../bootstrap-treeview.js"></script>
-
-<script type="text/javascript">
-        //var data = JSON.parse('[${fileTree}]');
-        //$('#tree').treeview({data: data});
-</script>
-
-<script th:inline="javascript">
-/*<![CDATA[*/
-
-    var fileTree = /*[[${fileTree}]]*/ 'dummy';
-    $('#tree').treeview({
-        data: fileTree,
-        levels: 5,
-        emptyIcon: 'glyphicon glyphicon-file',
-        expandIcon: 'glyphicon glyphicon-chevron-right',
-        collapseIcon: 'glyphicon glyphicon-chevron-down',
-        showTags: true,
-    });
-
-/*]]>*/
-</script>
 
 </body>
 </html>

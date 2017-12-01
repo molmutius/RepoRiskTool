@@ -13,6 +13,8 @@ import java.util.List;
 @ConfigurationProperties("config")
 public class Properties
 {
+    private static final String JSON_OUTPUT_FILE = "repo_risk_tool_filetree.json";
+
     @Value("${project.name}")
     private String projectName;
 
@@ -84,6 +86,21 @@ public class Properties
         this.output = output;
     }
 
+    public String getJiraUrl()
+    {
+        throw new RuntimeException("Stub!");
+    }
+
+    public String getJiraUser()
+    {
+        throw new RuntimeException("Stub!");
+    }
+
+    public String getJiraPassword()
+    {
+        throw new RuntimeException("Stub!");
+    }
+
     public class Output
     {
         private Path outputDir;
@@ -101,7 +118,7 @@ public class Properties
 
         public Path getOutputFile()
         {
-            return Paths.get(getOutputDirectory(), "repo_risk_tool_filetree.json");
+            return Paths.get(getOutputDirectory(), JSON_OUTPUT_FILE);
         }
 
         public void setOutputFile(Path outputFile)

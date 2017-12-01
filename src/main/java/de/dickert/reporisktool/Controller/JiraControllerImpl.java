@@ -1,6 +1,6 @@
 package de.dickert.reporisktool.Controller;
 
-import de.dickert.reporisktool.Model.Issue;
+import de.dickert.reporisktool.Model.RepoIssue;
 import de.dickert.reporisktool.Service.JiraService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,21 +23,19 @@ public class JiraControllerImpl implements JiraController
     private JiraService jiraService;
 
     @Override
-    public List<Issue> getIssues(String projectName)
+    public List<RepoIssue> getIssues(String projectName)
     {
         log.info("Getting Issues from Jira");
-        String issuesJSON = jiraService.getIssuesJson();
-        List<Issue> issues = parseIssues(issuesJSON);
-        return issues;
+        return jiraService.getIssues();
     }
 
     /**
      * Takes the issues JSON String as returned from JIRA
-     * and parses it into a list of the {@link Issue} data structure.
+     * and parses it into a list of the {@link RepoIssue} data structure.
      * @param issuesJSON
-     * @return a list of {@link Issue}s
+     * @return a list of {@link RepoIssue}s
      */
-    private List<Issue> parseIssues(String issuesJSON)
+    private List<RepoIssue> parseIssues(String issuesJSON)
     {
         return Collections.EMPTY_LIST;
     }

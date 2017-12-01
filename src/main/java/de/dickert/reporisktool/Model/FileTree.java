@@ -56,7 +56,7 @@ public class FileTree
      * @param path The path of the current directory or file
      * @return A flattened list of all issues in this subtree (including provided dir)
      */
-    public static List<Issue> getIssuesOfSubtree(Path path)
+    public static List<RepoIssue> getIssuesOfSubtree(Path path)
     {
         final Optional<DefaultMutableTreeNode> subTreeOptional = findNode(path);
         final DefaultMutableTreeNode subTree = subTreeOptional
@@ -64,15 +64,15 @@ public class FileTree
         return getIssuesOfSubtree(subTree);
     }
 
-    public static List<Issue> getIssuesOfSubtree(DefaultMutableTreeNode subTree)
+    public static List<RepoIssue> getIssuesOfSubtree(DefaultMutableTreeNode subTree)
     {
-        final List<Issue> issues = new ArrayList<>();
+        final List<RepoIssue> repoIssues = new ArrayList<>();
         traverseTree(new NodeVisitor()
         {
             @Override
             public void onNode(DefaultMutableTreeNode node) { }
         }, subTree);
-        return issues;
+        return repoIssues;
     }
 
     private static Optional<DefaultMutableTreeNode> findNode(Path path)
@@ -143,7 +143,7 @@ public class FileTree
             if (repoFile.getPath().equals(nodePath))
             {
                 // Add node Payload: create new RepoFile, which also holds the file
-                node.setUserObject(new RepoItem(file, repoFile.getIssues()));
+                node.setUserObject(new RepoItem(file, repoFile.getRepoIssues()));
                 return;
             }
         }

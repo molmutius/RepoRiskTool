@@ -1,9 +1,5 @@
 package de.dickert.reporisktool;
 
-import de.dickert.reporisktool.Controller.FileTreeController;
-import de.dickert.reporisktool.Controller.JiraController;
-import de.dickert.reporisktool.Controller.RepoController;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

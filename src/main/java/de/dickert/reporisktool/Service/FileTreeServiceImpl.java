@@ -1,4 +1,4 @@
-package de.dickert.reporisktool.Controller;
+package de.dickert.reporisktool.Service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,17 +23,17 @@ import java.util.List;
 
 @Primary
 @Controller
-@Qualifier("FileTreeControllerImpl")
-public class FileTreeControllerImpl implements FileTreeController
+@Qualifier("FileTreeServiceImpl")
+public class FileTreeServiceImpl implements FileTreeService
 {
-    private static final Logger log = LoggerFactory.getLogger(FileTreeControllerImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(FileTreeServiceImpl.class);
 
     private Properties config;
     private final Path rootPath;
     private final List<String> excludes;
 
     @Autowired
-    public FileTreeControllerImpl(Properties config)
+    public FileTreeServiceImpl(Properties config)
     {
         this.rootPath = config.getPath();
         this.excludes = config.getExcludeNames();

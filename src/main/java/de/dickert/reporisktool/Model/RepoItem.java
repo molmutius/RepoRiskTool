@@ -5,7 +5,6 @@ import com.google.gson.annotations.Expose;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class RepoItem
@@ -15,12 +14,12 @@ public class RepoItem
     Path path;
 
     @Expose
-    private List<Issue> issues;
+    private List<RepoIssue> repoIssues;
 
     public RepoItem(File file)
     {
         this.path = file.toPath();
-        this.issues = new ArrayList<>();
+        this.repoIssues = new ArrayList<>();
     }
 
     public RepoItem(Path path)
@@ -28,20 +27,20 @@ public class RepoItem
         new RepoItem(path.toFile());
     }
 
-    public RepoItem(File file, List<Issue> issues)
+    public RepoItem(File file, List<RepoIssue> repoIssues)
     {
         this.path = file.toPath();
-        this.issues = issues;
+        this.repoIssues = repoIssues;
     }
 
-    public List<Issue> getIssues()
+    public List<RepoIssue> getRepoIssues()
     {
-        return issues;
+        return repoIssues;
     }
 
-    public void setIssues(List<Issue> issues)
+    public void setRepoIssues(List<RepoIssue> repoIssues)
     {
-        this.issues = issues;
+        this.repoIssues = repoIssues;
     }
 
     public Path getPath()
