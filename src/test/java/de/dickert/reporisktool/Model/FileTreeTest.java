@@ -61,9 +61,9 @@ public class FileTreeTest
     public void TestGetIssueOfSubtree()
     {
         final RepoItem affectedFile1 = new RepoItem(file1Dir2.toFile(),
-                Arrays.asList(new RepoIssue("PAL-1234", summary, priority, type, iconUrl, status), new RepoIssue("PAL-555", summary, priority, type, iconUrl, status)));
+                Arrays.asList(new RepoIssue("PAL-1234"), new RepoIssue("PAL-555")));
         final RepoItem affectedFile2 = new RepoItem(fileRoot.toFile(),
-                Arrays.asList(new RepoIssue("PAL-999", summary, priority, type, iconUrl, status), new RepoIssue("PAL-555", summary, priority, type, iconUrl, status)));
+                Arrays.asList(new RepoIssue("PAL-999"), new RepoIssue("PAL-555")));
         final List<RepoItem> repoFiles = Arrays.asList(affectedFile1, affectedFile2);
         final List<String> excludeDirs = Collections.emptyList();
 
