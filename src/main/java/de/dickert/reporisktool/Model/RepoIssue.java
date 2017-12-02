@@ -3,9 +3,9 @@ package de.dickert.reporisktool.Model;
 import com.atlassian.jira.rest.client.api.domain.Issue;
 
 /**
- * An RepoIssue is the representation of an RepoIssue as it was found in the Version Control System.
- * This class is intentionally not tightly coupled to any VCS to be extensible in the future. Just
- * create new conversions from the VCS issue to a RepoIssue.
+ * A RepoIssue is the representation of an issue as it was found in the Ticket system.
+ * This class is intentionally not tightly coupled to any system to be extensible in the future. Just
+ * create new conversions from the ticket system issue to a RepoIssue.
  *
  * To outside users it offers nothing more than the member fields.
  */

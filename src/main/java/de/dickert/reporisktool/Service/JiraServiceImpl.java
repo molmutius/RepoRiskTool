@@ -28,7 +28,7 @@ public class JiraServiceImpl implements JiraService
     private String jiraUrl;
 
     @Autowired
-    public JiraServiceImpl(Properties properties)
+    public JiraServiceImpl(final Properties properties)
     {
         this.properties = properties;
         this.jiraUrl = properties.getJiraUrl();
@@ -40,7 +40,7 @@ public class JiraServiceImpl implements JiraService
     {
         final List<RepoIssue> issues = new ArrayList<>();
         final Promise<SearchResult> searchResult = jiraRestClient.getSearchClient().searchJql(jqlQueryGetAllIssues());
-        for (Issue issue : searchResult.claim().getIssues())
+        for (final Issue issue : searchResult.claim().getIssues())
         {
             issues.add(toRepoIssue(issue));
         }
@@ -52,24 +52,27 @@ public class JiraServiceImpl implements JiraService
     {
         try
         {
-            jiraRestClient.close();
-        } catch (IOException e)
+            if (jiraRestClient != null)
+            {
+                jiraRestClient.close();
+            }
+        }
+        catch (IOException e)
         {
             log.error("Could not close Jira Rest Client", e);
         }
     }
 
-    private RepoIssue toRepoIssue(Issue issue)
+    private RepoIssue toRepoIssue(final Issue issue)
     {
         return new RepoIssue(issue);
     }
 
     private JiraRestClient getJiraRestClient()
     {
-        JiraRestClientFactory factory = new AsynchronousJiraRestClientFactory();
+        final JiraRestClientFactory factory = new AsynchronousJiraRestClientFactory();
         jiraRestClient = factory.createWithBasicHttpAuthentication(
                 getJiraUri(), properties.getJiraUser(), properties.getJiraPassword());
-
         return jiraRestClient;
     }
 

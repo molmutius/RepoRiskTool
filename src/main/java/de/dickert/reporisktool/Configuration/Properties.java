@@ -1,13 +1,17 @@
 package de.dickert.reporisktool.Configuration;
 
+import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Nullable;
+import javax.validation.constraints.Null;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @ConfigurationProperties("config")
@@ -17,6 +21,18 @@ public class Properties
 
     @Value("${project.name}")
     private String projectName;
+
+    @Value("${project.git.ref.from}")
+    private String gitRefStart;
+
+    @Value("${project.git.ref.to}")
+    private String gitRefEnd;
+
+    @Value("${project.git.directory}")
+    private String gitDirectory;
+
+    @Value("${project.git.branch}")
+    private String gitBranch;
 
     @Value("${project.directory}")
     private String projectDirectory;
@@ -28,6 +44,15 @@ public class Properties
 
     @Value("${output.directory}")
     private String outputDirectory;
+
+    @Value("${jira.url}")
+    private String jiraUrl;
+
+    @Value("${jira.user}")
+    private String jiraUser;
+
+    @Value("${jira.password}")
+    private String jiraPassword;
 
     private Output output;
 
@@ -51,7 +76,7 @@ public class Properties
         return projectName;
     }
 
-    public Path getPath()
+    public Path getProjectPath()
     {
         return new File(projectDirectory).toPath();
     }
@@ -88,17 +113,46 @@ public class Properties
 
     public String getJiraUrl()
     {
-        throw new RuntimeException("Stub!");
+        return Optional.of(jiraUrl).orElseThrow(() -> new IllegalArgumentException("No JIRA URL provided"));
     }
 
     public String getJiraUser()
     {
-        throw new RuntimeException("Stub!");
+        return Optional.of(jiraUser).orElseThrow(() -> new IllegalArgumentException("No JIRA user provided"));
     }
 
     public String getJiraPassword()
     {
-        throw new RuntimeException("Stub!");
+        return Optional.of(jiraPassword).orElseThrow(() -> new IllegalArgumentException("No JIRA password provided"));
+    }
+
+    /**
+     * @return Git ref start from application.properties or null
+     */
+    @Nullable
+    public String getGitRefStart()
+    {
+        return Strings.isNullOrEmpty(gitRefStart) ? null : gitRefStart;
+    }
+
+    /**
+     * @return Git ref end from application.properties or null
+     */
+    @Nullable
+    public String getGitRefEnd()
+    {
+        return Strings.isNullOrEmpty(gitRefEnd) ? null : gitRefEnd;
+    }
+
+    @Nullable
+    public String getGitBranch()
+    {
+        return Strings.isNullOrEmpty(gitBranch) ? null : gitBranch;
+    }
+
+    public String getGitDirectory()
+    {
+        return gitDirectory;
     }
 
     public class Output

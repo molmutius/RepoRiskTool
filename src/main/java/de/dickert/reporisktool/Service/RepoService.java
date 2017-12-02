@@ -3,16 +3,17 @@ package de.dickert.reporisktool.Service;
 import de.dickert.reporisktool.Model.RepoItem;
 
 import java.util.List;
+import java.util.Set;
 
 public interface RepoService
 {
     /**
-     * Parses the git log output and finds all affected files for the given input.
-     * @param projectDirectory The project directory containing the .git dir
-     * @param startDate Time to start looking at
-     * @param endDate Time to end looking at
-     * @param branch Branch to look at
-     * @return Affected files by all git commits for the given input parameters
+     * Walks over the VCS and collects all files which have been affected
+     * and also links them to commits/entries into that VCS, where the
+     * filename is the key and the value are the RepoIsseus as collected
+     * by a ticket system like JIRA.
+     *
+     * @return A list of RepoItems
      */
-    public List<RepoItem> getAffectedFiles(String projectDirectory, String startDate, String endDate, String branch);
+    public List<RepoItem> getAffectedItems();
 }

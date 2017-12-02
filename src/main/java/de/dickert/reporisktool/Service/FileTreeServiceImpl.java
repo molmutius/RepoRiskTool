@@ -35,7 +35,7 @@ public class FileTreeServiceImpl implements FileTreeService
     @Autowired
     public FileTreeServiceImpl(Properties config)
     {
-        this.rootPath = config.getPath();
+        this.rootPath = config.getProjectPath();
         this.excludes = config.getExcludeNames();
         this.config = config;
     }

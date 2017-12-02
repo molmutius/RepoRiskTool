@@ -38,7 +38,10 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.2'
     compile group: 'org.json', name: 'json', version: '20171018'
     compile group: 'com.google.guava', name: 'guava', version: '23.4-jre'
+    compile group: 'com.atlassian.jira', name: 'jira-rest-java-client-api', version: '4.0.0'
     compile group: 'com.atlassian.jira', name: 'jira-rest-java-client-core', version: '4.0.0'
+    compile "com.atlassian.fugue:fugue:2.2.1"
+    compile group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '4.9.0.201710071750-r'
 
     testCompile group: 'org.testng', name: 'testng', version: '6.11'
     testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'

@@ -49,7 +49,7 @@ public class DummyFileTreeServiceImpl implements FileTreeService
 
     public DummyFileTreeServiceImpl(Properties config)
     {
-        this.rootPath = config.getPath();
+        this.rootPath = config.getProjectPath();
         this.excludes = config.getExcludeNames();
         // Todo: Repo files should be gatherd via autowired service
         this.repoFiles = Collections.emptyList();
