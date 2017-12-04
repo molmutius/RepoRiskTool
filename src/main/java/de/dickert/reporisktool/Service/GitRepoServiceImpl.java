@@ -82,7 +82,6 @@ public class GitRepoServiceImpl implements RepoService
                     "No first commit found. Check the provided revisions."));
             for (RevCommit currentCommit : gitLog)
             {
-                log.debug(String.format("Getting repo items for: %s", currentCommit.toString()));
                 final List<String> diffEntries = getDiff(previousCommit, currentCommit);
                 final List<RepoItem> repoItems = buildRepoItemsFromDiff(currentCommit, diffEntries);
                 repoItemMap.putAll(repoItems);
@@ -104,6 +103,7 @@ public class GitRepoServiceImpl implements RepoService
      */
     private List<RepoItem> buildRepoItemsFromDiff(final RevCommit commit, final List<String> affectedFiles)
     {
+        log.debug(String.format("Bulding repo item for [%s], %d files", commit.toString(), affectedFiles.size()));
         final List<RepoItem> repoItems = new ArrayList<>();
         final Set<String> ticketNumbers = getTicketNumbers(commit);
         for (String ticketNumber : ticketNumbers)
@@ -120,6 +120,7 @@ public class GitRepoServiceImpl implements RepoService
      */
     private RepoItem buildRepoItem(final String ticketNumber, final String affectedFile)
     {
+        log.debug(String.format("Building repo item for: %s %s", ticketNumber, affectedFile));
         final RepoItem repoItem = new RepoItem(new File(affectedFile));
         repoItem.addRepoIssue(issues.get(ticketNumber));
         return repoItem;
@@ -130,7 +131,7 @@ public class GitRepoServiceImpl implements RepoService
      * and Branch are taken from the application.properties and applied accordingly.
      *
      * As a side effect speed and memory consumption is optimized.
-        */
+     */
     private LogCommand prepareLogCommand() throws IOException, GitAPIException
     {
         final String refStart = properties.getGitRefStart();
@@ -216,6 +217,7 @@ public class GitRepoServiceImpl implements RepoService
         {
             ticketNumbers.add(matcher.group());
         }
+        log.debug(String.format("Found ticket numbers: %s", ticketNumbers.toString()));
         return ticketNumbers;
     }
 }
